@@ -1,30 +1,41 @@
-const { decorateObject } = require('../lib');
-const { NotImplementedError } = require('../lib');
+const { decorateObject } = require("../lib");
+const { NotImplementedError } = require("../lib");
 
 /**
  * Implement chainMaker object according to task description
  *
  */
 const chainMaker = {
+  chain: [],
+
   getLength() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+    return this.chain.length;
   },
-  addLink(/* value */) {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  addLink(value) {
+    if (!value) value = String(value);
+    this.chain.push(`( ${value} )`);
+    return this;
   },
-  removeLink(/* position */) {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  removeLink(position) {
+    if (
+      !Number.isInteger(position) ||
+      position < 1 ||
+      position > this.chain.length
+    ) {
+      this.chain = []; // Сбрасываем цепь при ошибке
+      throw new NotImplementedError("You can't remove incorrect link!");
+    }
+    this.chain.splice(position - 1, 1);
+    return this;
   },
   reverseChain() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+    this.chain.reverse();
+    return this;
   },
   finishChain() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+    const result = this.chain.join("~~");
+    this.chain = [];
+    return result;
   },
 };
 
